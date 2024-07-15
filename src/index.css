@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.dark-mode {
+    background-color: #212121 !important;
+    color: #ffffff !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #a3a3a3;
+    border-radius: 999px;
+}
+
+.cursorToEnd {
+    caret-color: transparent;
+    caret-color: initial;
+}
+
+
+@keyframes loading {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.animate-loading {
+    animation: loading 1.5s infinite linear;
+}
+
+.topbar-search-input::placeholder {
+    font-size: 16px;
+    transition: font-size 0.08s ease;
+}
+
+.topbar-search-input.placeholder-animated::placeholder {
+    font-size: 0px;
+    
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.08);
+    transform: scale(0);
+    animation: ripple-animation 1s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.chat-item {
+    position: relative;
+    overflow: hidden;
+}
+
+
+.chat-list {
+    padding: 20px;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+}
+
+.sender {
+    background-color: #e6f7ff;
+    align-self: flex-end;
+}
+
+.receiver {
+    background-color: #ffffff;
+    align-self: flex-start;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.sender-name {
+    font-weight: bold;
+}
+
+.message-time {
+    margin-left: 10px;
+}
+
+.message-body {
+    margin-top: 5px;
+    font-size: 1rem;
+}

@@ -1,0 +1,46 @@
+.toggle-container {
+    position: relative;
+    right: 0em;
+}
+
+.toggle {
+    display: none;
+}
+
+.toggle+label {
+    font-size: 1.5rem;
+    @apply flex items-center cursor-pointer drop-shadow-lg shadow-slate-800 rounded-lg
+}
+
+.toggle+label::before {
+    content: "";
+    height: 0.7em;
+    width: 2em;
+    border-radius: 1em;
+    background-color: #4a5568;
+}
+
+.toggle+label::after {
+    content: "";
+    height: 1em;
+    width: 1em;
+    border-radius: 1em;
+    background-color: white;
+    background-image: url("/darkMode/lightmode.png");
+    background-size: cover;
+    position: absolute;
+    transition: transform 0.2s;
+}
+
+.toggle:checked+label::before {
+    @apply bg-white
+}
+.toggle+label::before {
+    @apply bg-slate-700
+}
+
+.toggle:checked+label::after {
+    transform: translateX(100%) rotateZ(360deg);
+    border: 1.5px solid rgb(255, 255, 255);
+    background-image: url("/darkMode/darkmode.png");
+}
