@@ -199,7 +199,7 @@ const Sidebar = () => {
                             : "text-gray-500"
                         }`}
                       >
-                        {formatDate(chat.created_at)}
+                        {formatDate(chat.updated_at)}
                       </span>
                     </div>
                     <div className="flex items-center truncate">
