@@ -2,8 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { chatActions } from "../store/chat-slice";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
-import { CustomAvatar2 } from "./miscellaneous/Avatar";
+import {
+  IconButton,
+  InputAdornment,
+  TextField,
+  CircularProgress,
+} from "@mui/material";
 import {
   EmojiEmotionsOutlined as EmojiIcon,
   AttachFile as AttachmentIcon,
@@ -12,7 +16,7 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MessageBubble from "../components/miscellaneous/MessageBubble";
-import CircularProgress from "@mui/material/CircularProgress";
+import { CustomAvatar2 } from "./miscellaneous/Avatar";
 
 const ChatArea = () => {
   const dispatch = useDispatch();
@@ -84,16 +88,16 @@ const ChatArea = () => {
     setInputValue(event.target.value);
   };
 
-  function formatTime(createdAt) {
+  const formatTime = (createdAt) => {
     const date = new Date(createdAt);
     let hours = date.getHours();
     const minutes = date.getMinutes();
     const period = hours >= 12 ? "PM" : "AM";
     hours = hours % 12 || 12;
     return `${hours}:${minutes < 10 ? "0" : ""}${minutes} ${period}`;
-  }
+  };
 
-  function formatDate(createdAt) {
+  const formatDate = (createdAt) => {
     const date = new Date(createdAt);
     const today = new Date();
     const yesterday = new Date(today);
@@ -115,20 +119,16 @@ const ChatArea = () => {
         day: "numeric",
       });
     }
-  }
+  };
 
-  function shouldDisplayDate(currentMessage, previousMessage) {
+  const shouldDisplayDate = (currentMessage, previousMessage) => {
     if (!previousMessage) return true;
 
     const currentDate = new Date(currentMessage.created_at);
     const previousDate = new Date(previousMessage.created_at);
 
-    if (currentDate.toDateString() !== previousDate.toDateString()) {
-      return true;
-    }
-
-    return false;
-  }
+    return currentDate.toDateString() !== previousDate.toDateString();
+  };
 
   return (
     <div
@@ -143,10 +143,10 @@ const ChatArea = () => {
           isdark ? "bg-[#212121]" : "bg-white"
         } shadow-sm border-[1px] ${
           isdark ? "border-gray-600" : "border-gray-300"
-        } `}
+        }`}
       >
         <div className={`flex gap-4 items-center`}>
-          {isSmallScreen ? (
+          {isSmallScreen && (
             <span onClick={() => dispatch(chatActions.setSelectedChat(""))}>
               <ArrowBackIcon
                 style={{
@@ -158,8 +158,6 @@ const ChatArea = () => {
                 } rounded-full sm:ml-2`}
               />
             </span>
-          ) : (
-            ""
           )}
           <CustomAvatar2 name={selectedName} />
           <span className=" text-2xl font-sans select-none">
@@ -183,7 +181,7 @@ const ChatArea = () => {
           )}
           {error && <div>Error: {error.message}</div>}
 
-          {singleChat && singleChat.length > 0 ? (
+          {singleChat && singleChat.length > 0 && !loading ? (
             singleChat.map((message, index) => (
               <div key={message.id}>
                 {shouldDisplayDate(message, singleChat[index - 1]) && (
@@ -210,7 +208,7 @@ const ChatArea = () => {
               </div>
             ))
           ) : (
-            <div>No messages yet!</div>
+            <div>{!loading && "No messages yet!"}</div>
           )}
           <div ref={chatEndRef}></div>
         </div>
@@ -261,7 +259,6 @@ const ChatArea = () => {
               style={{
                 width: "2.5rem",
                 height: "2.5rem",
-
                 color: "white",
                 backgroundColor: isdark ? "#8774E1" : "#3390EC",
                 padding: "8px",
@@ -273,7 +270,6 @@ const ChatArea = () => {
               style={{
                 width: "2.5rem",
                 height: "2.5rem",
-
                 color: "white",
                 backgroundColor: isdark ? "#8774E1" : "#3390EC",
                 padding: "5px",
