@@ -235,7 +235,6 @@ const ChatArea = () => {
           placeholder="Message"
           fullWidth
           autoComplete="off"
-          autoFocus
           value={inputValue}
           onChange={handleInputChange}
           sx={{
