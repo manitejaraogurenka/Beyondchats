@@ -85,7 +85,7 @@ const Sidebar = () => {
     const options = {
       root: null,
       rootMargin: "20px",
-      threshold: 1.0,
+      threshold: 0.9,
     };
 
     const observer = new IntersectionObserver(handleObserver, options);
@@ -146,7 +146,7 @@ const Sidebar = () => {
       <Topbar />
       <div className="flex-1 overflow-y-auto transition-all ease">
         <ul className="w-full flex flex-col list-none">
-          {loading && loadingMessages && page <= 2 ? (
+          {loading && loadingMessages && page <= 1 ? (
             Array.from({ length: numSkeletonItems }).map((_, index) => (
               <li key={index} className="flex items-center p-2">
                 <Skeleton variant="circular" width={55} height={55} />
@@ -225,8 +225,9 @@ const Sidebar = () => {
                   </div>
                 </li>
               ))}
-              {chatsList.length === chats.length &&
-                page > 2 &&
+              {chatsList.length !== chats.length &&
+                loading &&
+                page >= 1 &&
                 Array.from({ length: 1 }).map((_, index) => (
                   <li
                     key={`skeleton-${index}`}

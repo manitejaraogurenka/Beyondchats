@@ -2,9 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { chatActions } from "../store/chat-slice";
-import { IconButton, InputAdornment, TextField, Skeleton } from "@mui/material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { CustomAvatar2 } from "./miscellaneous/Avatar";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   EmojiEmotionsOutlined as EmojiIcon,
   AttachFile as AttachmentIcon,
@@ -13,6 +12,7 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MessageBubble from "../components/miscellaneous/MessageBubble";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const ChatArea = () => {
   const dispatch = useDispatch();
@@ -130,8 +130,6 @@ const ChatArea = () => {
     return false;
   }
 
-  const numSkeletonItems = 10;
-
   return (
     <div
       className={`h-screen ${
@@ -179,19 +177,8 @@ const ChatArea = () => {
       >
         <div className="mt-14">
           {loading && (
-            <div>
-              {Array.from({ length: numSkeletonItems }).map((_, index) => (
-                <div key={index} className="flex mb-4">
-                  <Skeleton
-                    variant="rectangular"
-                    width={isdark ? "90%%" : "90%"}
-                    height={40}
-                    className={`rounded-lg ${
-                      isdark ? "bg-[#2D2D2D]" : "bg-gray-300"
-                    }`}
-                  />
-                </div>
-              ))}
+            <div className=" flex items-center justify-center h-[95vh] -mt-5 w-full">
+              <CircularProgress />
             </div>
           )}
           {error && <div>Error: {error.message}</div>}

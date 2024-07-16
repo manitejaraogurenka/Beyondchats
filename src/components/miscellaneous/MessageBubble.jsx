@@ -30,12 +30,18 @@ const MessageBubble = ({ message, isdark, formatTime, ownMessage }) => {
           : "bg-[#212121] text-white"
       } mx-1 my-[0.5px] rounded-lg py-[5px] px-[10px] max-w-[75%] ${
         message.message.length < 20 ? "pr-12" : "pb-3"
-      } items-end gap-2 flex flex-col flex-wrap break-words`}
+      } items-end gap-0.5 flex flex-col flex-wrap break-words`}
       style={{
         wordBreak: "break-word",
         overflowWrap: "break-word",
       }}
     >
+      {message.sender.id === 1 && (
+        <span className="text-xs h-fit flex w-full p-0 m-0 font-semibold text-start">
+          {message.sender.name}
+        </span>
+      )}
+
       <Linkify componentDecorator={linkifyDecorator}>
         <span>{message.message}</span>
       </Linkify>
