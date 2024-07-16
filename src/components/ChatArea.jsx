@@ -10,6 +10,7 @@ import {
   AttachFile as AttachmentIcon,
   Mic as MicrophoneIcon,
 } from "@mui/icons-material";
+import SendIcon from "@mui/icons-material/Send";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MessageBubble from "../components/miscellaneous/MessageBubble";
 
@@ -25,6 +26,7 @@ const ChatArea = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(
     typeof window !== "undefined" && window.innerWidth <= 640
   );
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     const handleResize = () => {
@@ -77,6 +79,10 @@ const ChatArea = () => {
       chatEndRef.current.scrollIntoView({ behavior: "auto" });
     }
   }, [singleChat]);
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
 
   function formatTime(createdAt) {
     const date = new Date(createdAt);
@@ -165,7 +171,7 @@ const ChatArea = () => {
       </div>
 
       <div
-        className="overflow-scroll w-full h-[90vh] px-4 pt-4 relative"
+        className="overflow-scroll w-full h-[95vh] px-4 pt-14 relative"
         style={{
           backgroundImage: `url(${isdark ? "/darkbg.png" : "/lightbg.png"})`,
           backgroundSize: "cover",
@@ -223,53 +229,72 @@ const ChatArea = () => {
         </div>
       </div>
       <div
-        className={` ${
-          isdark ? "bg-[#212121]" : "bg-white"
-        } flex items-center p-2 w-full z-20 text-white`}
+        className={`bg-transparent bottom-0 flex items-center p-2 w-full z-20 text-white`}
       >
-        <IconButton>
-          <EmojiIcon style={{ margin: "5px", color: "gray" }} />
-        </IconButton>
-
         <TextField
           placeholder="Message"
           fullWidth
+          autoComplete="off"
+          autoFocus
+          value={inputValue}
+          onChange={handleInputChange}
           sx={{
             "& .MuiOutlinedInput-root": {
               borderRadius: "14px",
-              "& fieldset": {
-                border: "2px solid gray",
-              },
+              height: "3rem",
+              backgroundColor: isdark ? "#212121" : "white",
               "&.Mui-focused fieldset": {
                 borderColor: "gray",
               },
               "& input, & input::placeholder": {
                 color: isdark ? "white" : "black",
+                padding: "10px",
               },
             },
           }}
           InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <IconButton>
+                  <EmojiIcon style={{ color: "gray" }} />
+                </IconButton>
+              </InputAdornment>
+            ),
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton>
-                  <AttachmentIcon style={{ color: "gray" }} />
+                  <AttachmentIcon style={{ color: "gray", rotate: "45deg" }} />
                 </IconButton>
               </InputAdornment>
             ),
           }}
         />
         <IconButton>
-          <MicrophoneIcon
-            style={{
-              width: "2.5rem",
-              height: "2.5rem",
+          {inputValue !== "" ? (
+            <SendIcon
+              style={{
+                width: "2.5rem",
+                height: "2.5rem",
 
-              color: "white",
-              backgroundColor: isdark ? "#8774E1" : "#3390EC",
-              padding: "5px",
-              borderRadius: "100%",
-            }}
-          />
+                color: "white",
+                backgroundColor: isdark ? "#8774E1" : "#3390EC",
+                padding: "8px",
+                borderRadius: "100%",
+              }}
+            />
+          ) : (
+            <MicrophoneIcon
+              style={{
+                width: "2.5rem",
+                height: "2.5rem",
+
+                color: "white",
+                backgroundColor: isdark ? "#8774E1" : "#3390EC",
+                padding: "5px",
+                borderRadius: "100%",
+              }}
+            />
+          )}
         </IconButton>
       </div>
     </div>

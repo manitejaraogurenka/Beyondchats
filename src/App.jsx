@@ -24,7 +24,9 @@ const App = () => {
     <div
       style={{
         backgroundImage: `url(${isdark ? "/darkbg.png" : "/lightbg.png"})`,
-        backgroundRepeat: "repeat",
+        backgroundRepeat: isdark ? "repeat" : "no-repeat",
+        backgroundSize: !isdark ? "cover" : "",
+        backgroundPosition: "center",
       }}
     >
       <div
