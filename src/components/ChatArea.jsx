@@ -10,9 +10,8 @@ import {
   AttachFile as AttachmentIcon,
   Mic as MicrophoneIcon,
 } from "@mui/icons-material";
-import BubbleTail from "/BubbleTail.svg";
-import BubbleTailLight from "/BubbleTailLight.svg";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import MessageBubble from "../components/miscellaneous/MessageBubble";
 
 const ChatArea = () => {
   const dispatch = useDispatch();
@@ -100,13 +99,13 @@ const ChatArea = () => {
       return "Yesterday";
     } else if (today.getFullYear() === date.getFullYear()) {
       return date.toLocaleDateString("en-US", {
-        month: "short",
+        month: "long",
         day: "numeric",
       });
     } else {
       return date.toLocaleDateString("en-US", {
         year: "numeric",
-        month: "short",
+        month: "long",
         day: "numeric",
       });
     }
@@ -133,7 +132,7 @@ const ChatArea = () => {
         isdark ? "bg-[#272727]" : "bg-white"
       } overflow-hidden border-[1px] ${
         isdark ? "border-gray-600" : "border-gray-300"
-      }`}
+      } w-full`}
     >
       <div
         className={`fixed top-0 py-2 px-5 w-full z-20 flex-auto items-center justify-between ${
@@ -159,12 +158,14 @@ const ChatArea = () => {
             ""
           )}
           <CustomAvatar2 name={selectedName} />
-          <span className=" text-2xl font-sans">{selectedName}</span>
+          <span className=" text-2xl font-sans select-none">
+            {selectedName}
+          </span>
         </div>
       </div>
 
       <div
-        className="chat-list overflow-scroll w-full h-[90vh] p-4 pt-10 relative"
+        className="overflow-scroll w-full h-[90vh] px-4 pt-4 relative"
         style={{
           backgroundImage: `url(${isdark ? "/darkbg.png" : "/lightbg.png"})`,
           backgroundSize: "cover",
@@ -193,7 +194,11 @@ const ChatArea = () => {
             singleChat.map((message, index) => (
               <div key={message.id}>
                 {shouldDisplayDate(message, singleChat[index - 1]) && (
-                  <div className="text-center mb-2 text-gray-500 py-1 px-2 bg-slate-100 bg-opacity-20 rounded-3xl w-fit mx-auto">
+                  <div
+                    className={`text-center mb-2 text-white font-semibold py-1 px-2 ${
+                      isdark ? "bg-[#c508ff]" : "bg-[#0e9407]"
+                    } bg-opacity-20 rounded-3xl w-fit mx-auto select-none`}
+                  >
                     {formatDate(message.created_at)}
                   </div>
                 )}
@@ -202,35 +207,12 @@ const ChatArea = () => {
                     message.sender.id === 1 ? "justify-start" : "justify-end"
                   } mb-4`}
                 >
-                  <div
-                    className={`relative ${
-                      !isdark ? "bg-white" : "bg-[#8774E1] text-white"
-                    } mx-1 my-[0.5px] rounded-lg py-[5px] px-[10px] max-w-[75%] ${
-                      message.message.length < 20 ? "pr-12" : "pb-3"
-                    } items-end gap-2 flex flex-col flex-wrap break-all`}
-                  >
-                    <span>{message.message}</span>
-                    <span
-                      className={`${
-                        !isdark ? "text-gray-800" : "text-gray-100"
-                      } ${
-                        message.message.length > 20 ? "pt-1" : ""
-                      } text-[9px] select-none text-nowrap absolute bottom-0.5 right-1`}
-                    >
-                      {formatTime(message.created_at)}
-                    </span>
-                    <img
-                      src={isdark ? BubbleTail : BubbleTailLight}
-                      alt="bubble tail"
-                      className={`absolute bottom-0 ${
-                        message.sender.id === 1
-                          ? "left-[-11px] bottom-[0.3px] transform -scale-x-100"
-                          : "right-[-11px]"
-                      }`}
-                      width="22"
-                      height="20"
-                    />
-                  </div>
+                  <MessageBubble
+                    message={message}
+                    isdark={isdark}
+                    formatTime={formatTime}
+                    ownMessage={message.sender.id === 1}
+                  />
                 </div>
               </div>
             ))

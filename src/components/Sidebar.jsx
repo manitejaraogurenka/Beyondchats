@@ -203,17 +203,22 @@ const Sidebar = () => {
                       </span>
                     </div>
                     <div className="flex items-center truncate">
-                      <span className="truncate">
+                      <span
+                        className={`truncate ${
+                          isdark ? "text-gray-300" : "text-gray-800"
+                        }`}
+                      >
                         {(() => {
                           const message = chatsList.find(
                             (msg) => msg.chatId === chat.id
                           );
                           if (!message) return null;
                           return message.senderId === chat.id
-                            ? "You"
-                            : message.name ?? "unknown";
-                        })()}
-                        {chatsList.length === chats.length && ":"}{" "}
+                            ? "You: "
+                            : message.name
+                            ? message.name + ": "
+                            : "unknown: ";
+                        })()}{" "}
                         {findLastMessage(chat.id)}
                       </span>
                     </div>
